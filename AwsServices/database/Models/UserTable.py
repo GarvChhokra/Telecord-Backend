@@ -82,6 +82,19 @@ class UserTable:
                 return Response(body={'error': 'Invalid credentials!'}, status_code=401)
         except Exception as e:
             return {'error': str(e)}
+        
+    def make_admin(self, data):
+        print(("data", data))
+        try:
+            response = self.table.update_item(
+                Key={'Email': data['Email']},
+                UpdateExpression="set Role=:a",
+                ExpressionAttributeValues={":a": data['e']},
+                ReturnValues='UPDATED_NEW'
+            )
+            return Response(body=response, status_code=200)
+        except Exception as e:
+            return Response(body={'error': str(e)}, status_code=500)
 
     def update_profile(self, user_data):
         try:
