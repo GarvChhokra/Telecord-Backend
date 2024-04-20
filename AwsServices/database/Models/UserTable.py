@@ -53,6 +53,18 @@ class UserTable:
             return Response(body={'message': 'User signed up successfully!'}, status_code=201)
         except Exception as e:
             return {'error': str(e)}
+        
+    def update_password(self, data):
+        try:
+            response = self.table.update_item(
+                Key={'Email': data['Email']},
+                UpdateExpression="set Password=:p, Salt=:s",
+                ExpressionAttributeValues={":p": data['Password'], ":s": data['Salt']},
+                ReturnValues='UPDATED_NEW'
+            )
+            return Response(body=response, status_code=200)
+        except Exception as e:
+            return Response(body={'error': str(e)}, status_code=500)
 
     def login(self, user_data):
         try:
@@ -100,6 +112,14 @@ class UserTable:
                 return Response(body={'error': 'User not found!'}, status_code=404)
         except Exception as e:
             print('Error:', e)
+            return Response(body={'error': str(e)}, status_code=500)
+        
+    def get_all_users(self):
+        try:
+            response = self.table.scan()
+            users = response.get("Items", [])
+            return users
+        except Exception as e:
             return Response(body={'error': str(e)}, status_code=500)
 
     def search_users(self, query, pageNumber):

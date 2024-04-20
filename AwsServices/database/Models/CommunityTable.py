@@ -93,6 +93,20 @@ class CommunityTable:
             return Response(body=community, status_code=200)
         except Exception as e:
             return Response(body={'error': str(e)}, status_code=500)
+        
+    def get_all_community(self):
+        """
+        Retrieves all communities from the table.
+
+        :return: A list of all community details.
+        """
+        try:
+            response = self.table.scan()
+            communities = response.get("Items", [])
+
+            return Response(body=communities, status_code=200)
+        except Exception as e:
+            return Response(body={'error': str(e)}, status_code=500)
 
     def search_community(self, query):
         """
@@ -168,6 +182,7 @@ class CommunityTable:
         :return: The response from the delete_item call.
         """
         try:
+            print("Data", data['CommunityId'])
             response = self.table.delete_item(
                 Key={"CommunityId": data["CommunityId"]})
 
