@@ -148,10 +148,10 @@ def chats():
 def get_chats(communityId):
     return dynamo_db.getChats(communityId)
 
-@app.route('/makeAdmin', methods=['PUT'], cors=True)
+@app.route('/changeRole', methods=['PUT'], cors=True)
 def make_admin():
     request = app.current_request
-    return dynamo_db.make_admin(request.json_body)
+    return dynamo_db.change_role(request.json_body)
 
 
 @app.route('/deleteCommunity', methods=['DELETE'], cors=True)

@@ -72,8 +72,8 @@ class DynamoDB:
     def login(self, user_data):
         return self.user_table.login(user_data)
     
-    def make_admin(self, data):
-        return self.user_table.make_admin(data)
+    def change_role(self, data):
+        return self.user_table.change_role(data)
 
     def join_community(self, data):
         return self.community_table.join_community(data)
