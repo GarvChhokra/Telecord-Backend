@@ -84,12 +84,11 @@ class UserTable:
             return {'error': str(e)}
         
     def make_admin(self, data):
-        print(("data", data))
         try:
             response = self.table.update_item(
                 Key={'Email': data['Email']},
-                UpdateExpression="set Role=:a",
-                ExpressionAttributeValues={":a": data['e']},
+                UpdateExpression="set UserRole=:a",
+                ExpressionAttributeValues={":a": data['Role']},
                 ReturnValues='UPDATED_NEW'
             )
             return Response(body=response, status_code=200)
