@@ -44,6 +44,9 @@ class DynamoDB:
 
     def getCommunityById(self, community_id):
         return self.community_table.get_community_by_id(community_id)
+    
+    def get_all_community(self):
+        return self.community_table.get_all_community()
 
     def update_profile(self, user_data):
         return self.user_table.update_profile(user_data)
@@ -53,12 +56,18 @@ class DynamoDB:
 
     def get_user(self, email):
         return self.user_table.get_user(email)
+    
+    def get_all_users(self):
+        return self.user_table.get_all_users()
 
     def delete_user(self, user_data):
         return self.user_table.delete_user(user_data)
 
     def signUp(self, user_data):
         return self.user_table.sign_up(user_data)
+    
+    def update_password(self, data):
+        return self.user_table.update_password(data)
 
     def login(self, user_data):
         return self.user_table.login(user_data)

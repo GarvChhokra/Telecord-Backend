@@ -27,8 +27,21 @@ def sign_up():
     hashed_pswd = bcrypt.hashpw(body['Password'].encode('utf-8'), salt)
     body['Password'] = hashed_pswd.decode('utf-8')
     body['Salt'] = salt.decode('utf-8')
-    
+
     return dynamo_db.signUp(body)
+
+
+@app.route('/changePswd', methods=['PUT'], cors=True)
+def change_pswd():
+    request = app.current_request
+    body = request.json_body
+    salt = bcrypt.gensalt()
+
+    hashed_pswd = bcrypt.hashpw(body['Password'].encode('utf-8'), salt)
+    body['Password'] = hashed_pswd.decode('utf-8')
+    body['Salt'] = salt.decode('utf-8')
+
+    return dynamo_db.update_password(body)
 
 
 @app.route('/login', methods=['POST'], cors=True)
@@ -62,6 +75,11 @@ def get_community_by_id(community_id):
     return dynamo_db.getCommunityById(community_id)
 
 
+@app.route('/getAllCommunity', methods=['GET'], cors=True)
+def get_all_community():
+    return dynamo_db.get_all_community()
+
+
 @app.route('/updateUserProfile', methods=['PUT'], cors=True)
 def update_profile():
     request = app.current_request
@@ -72,6 +90,11 @@ def update_profile():
 def get_user():
     request = app.current_request
     return dynamo_db.get_user(email=request.json_body['Email'])
+
+
+@app.route('/getAllUsers', methods=['GET'], cors=True)
+def get_all_users():
+    return dynamo_db.get_all_users()
 
 
 @app.route('/searchUsers', methods=['GET'], cors=True)
