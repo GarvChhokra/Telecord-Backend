@@ -184,11 +184,15 @@ class CommunityTable:
         try:
             print("Data", data['CommunityId'])
             response = self.table.delete_item(
-                Key={"CommunityId": data["CommunityId"]})
+                Key={"CommunityId": int(data["CommunityId"])})
+            
+            print("Response", response)
 
-            if "Attributes" in response:
-                return Response(body={'message': 'Profile updated successfully!'}, status_code=200)
+            if response["ResponseMetadata"]["HTTPStatusCode"]==200:
+                print(response)
+                return Response(body={'message': 'Community updated successfully!'}, status_code=200)
             else:
+                print("else", response)
                 return Response(body={'error': 'Invalid credentials!'}, status_code=401)
 
         except Exception as e:
