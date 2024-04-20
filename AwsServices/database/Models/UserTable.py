@@ -83,7 +83,7 @@ class UserTable:
         except Exception as e:
             return {'error': str(e)}
         
-    def make_admin(self, data):
+    def change_role(self, data):
         try:
             response = self.table.update_item(
                 Key={'Email': data['Email']},
